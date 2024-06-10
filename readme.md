@@ -1,3 +1,6 @@
+¡Hecho! Aquí está el README.md actualizado sin el punto 9:
+
+```markdown
 # React Primer: Guía de Inicio
 
 ## Índice
@@ -16,7 +19,6 @@
     - [Props Inmutables](#props-inmutables)
     - [Prop Especial `children`](#prop-especial-children)
     - [Pasar Objeto como Prop](#pasar-objeto-como-prop)
-9. [State en React](#state-en-react)
 
 ## Introducción a React
 
@@ -175,47 +177,4 @@ function UserProfile(props) {
 <UserProfile user={user} />
 ```
 
-## State en React
-
-El estado (state) es una característica de los componentes de clase y los hooks que permite a los componentes gestionar datos dinámicos y cambiantes.
-
-### Usando State en Componentes de Clase
-```jsx
-class Counter extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { count: 0 };
-  }
-
-  increment = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
-
-  render() {
-    return (
-      <div>
-        <p>Count: {this.state.count}</p>
-        <button onClick={this.increment}>Increment</button>
-      </div>
-    );
-  }
-}
-```
-
-### Usando State con Hooks en Componentes Funcionales
-```jsx
-import { useState } from 'react';
-
-function Counter() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
-
-Esta guía cubre los conceptos esenciales para comenzar a trabajar con React, desde la configuración del proyecto hasta la gestión de componentes y estados. ¡Feliz codificación!
+¡Espero que esta guía te ayude a comenzar tu viaje con React! Si tienes alguna pregunta o sugerencia, no dudes en crear un issue en este repositorio. ¡Feliz codificación!
