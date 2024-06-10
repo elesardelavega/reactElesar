@@ -1,4 +1,3 @@
-¡Hecho! Aquí está el README.md actualizado sin el punto 9:
 
 ```markdown
 # React Primer: Guía de Inicio
