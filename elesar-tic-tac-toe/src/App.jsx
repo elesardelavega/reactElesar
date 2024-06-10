@@ -1,4 +1,5 @@
 import { useState } from "react"
+import confetti from 'canvas-confetti'
 const TURNS = {
   X: 'x',
   O: 'o'
@@ -83,7 +84,7 @@ function App() {
     // rervisar ganador
     const newWinner = checkWinner(newBoard)
     if (newWinner){
-      console.log(newWinner)
+      confetti()
       setWinner(newWinner) // actualiza el estado (asincrono)
     } else if (checkEndGame(newBoard)){
         setWinner(false)
