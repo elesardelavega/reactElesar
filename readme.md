@@ -1,5 +1,4 @@
 
-```markdown
 # React Primer: Guía de Inicio
 
 ## Índice
