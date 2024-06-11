@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import confetti from 'canvas-confetti'
 import { Square } from "./components/Square.jsx"
 import { TURNS } from "./constants.js"
@@ -46,7 +46,7 @@ function App() {
     setTurn(newTurn)
 
     // guardar aquí partida
-    +saveGameToStorage({
+    saveGameToStorage({
       board: newBoard,
       turn: newTurn
     })
@@ -60,6 +60,11 @@ function App() {
         setWinner(false)
     }
   }
+
+  /*useEffect (() => {
+    como mínimo se ejecuta una vez
+    console.log('useEffect')
+  }, [dependencia, por ejemplo: WINNER])*/
 
   return (
     <main className="board">
