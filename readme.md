@@ -1,22 +1,37 @@
+Claro, aquí tienes el contenido actualizado del `README.md` con las instrucciones para desplegar la aplicación utilizando el comando `npm run build` y subiendo la carpeta a Netlify.
+
+---
 
 # React Primer: Guía de Inicio
 
 ## Índice
 
-1. [Introducción a React](#introducción-a-react)
-2. [JSX](#jsx)
-3. [SWC y Babel](#swc-y-babel)
-4. [Inicializar un Proyecto con Vite](#inicializar-un-proyecto-con-vite)
-5. [Usar React sin Dependencias](#usar-react-sin-dependencias)
-6. [Crear Componentes](#crear-componentes)
-7. [Estilos en React](#estilos-en-react)
-8. [Props en React](#props-en-react)
+- [React Primer: Guía de Inicio](#react-primer-guía-de-inicio)
+  - [Índice](#índice)
+  - [Introducción a React](#introducción-a-react)
+  - [JSX](#jsx)
+  - [SWC y Babel](#swc-y-babel)
+    - [SWC](#swc)
+    - [Babel](#babel)
+  - [Inicializar un Proyecto con Vite](#inicializar-un-proyecto-con-vite)
+  - [Usar React sin Dependencias](#usar-react-sin-dependencias)
+  - [Crear Componentes](#crear-componentes)
+    - [Componente de Clase](#componente-de-clase)
+    - [Componente de Función](#componente-de-función)
+  - [Estilos en React](#estilos-en-react)
+    - [Estilos en Línea](#estilos-en-línea)
+    - [Importar CSS](#importar-css)
+  - [Props en React](#props-en-react)
     - [Pasando Booleanos y Funciones como Props](#pasando-booleanos-y-funciones-como-props)
     - [Elementos como Props](#elementos-como-props)
     - [Diferencia entre Elemento y Componente](#diferencia-entre-elemento-y-componente)
     - [Props Inmutables](#props-inmutables)
     - [Prop Especial `children`](#prop-especial-children)
     - [Pasar Objeto como Prop](#pasar-objeto-como-prop)
+  - [Cómo Hacer un Despliegue](#cómo-hacer-un-despliegue)
+    - [Crear el Build de Producción](#crear-el-build-de-producción)
+    - [Subir a Netlify](#subir-a-netlify)
+    - [Despliegue Automático con GitHub (Opcional)](#despliegue-automático-con-github-opcional)
 
 ## Introducción a React
 
@@ -175,4 +190,36 @@ function UserProfile(props) {
 <UserProfile user={user} />
 ```
 
-¡Espero que esta guía te ayude a comenzar tu viaje con React! Si tienes alguna pregunta o sugerencia, no dudes en crear un issue en este repositorio. ¡Feliz codificación!
+## Cómo Hacer un Despliegue
+
+Desplegar tu aplicación de React creada con Vite es un paso importante para compartir tu proyecto con el mundo. Aquí se explica cómo hacer el despliegue utilizando el comando `npm run build` y subiendo la carpeta generada a Netlify.
+
+### Crear el Build de Producción
+
+1. En la raíz de tu proyecto, ejecuta el siguiente comando para crear un build de producción:
+   ```bash
+   npm run build
+   ```
+   Esto generará una carpeta llamada `dist` que contiene tu aplicación optimizada para producción.
+
+### Subir a Netlify
+
+1. **Accede a Netlify**: Ve a [Netlify](https://app.netlify.com/drop).
+
+2. **Sube la Carpeta `dist`**: Arrastra y suelta la carpeta `dist` generada en el área de subida de Netlify.
+
+3. **Configuración Automática**: Netlify detectará automáticamente los archivos y configurará tu aplicación para que esté disponible en una URL pública.
+
+### Despliegue Automático con GitHub (Opcional)
+
+Si prefieres un despliegue automático cada vez que haces un push a tu repositorio de GitHub, puedes conectar tu repositorio a Netlify:
+
+1. **Crear un Nuevo Sitio desde Git**: En tu cuenta de Netlify, selecciona "New site from Git".
+
+2. **Conectar tu Repositorio**: Elige GitHub (o GitLab/Bitbucket), selecciona tu repositorio y branch.
+
+3. **Configurar los Parámetros de Despliegue**:
+   - **Build Command**: `npm run build`
+   - **Publish Directory**: `dist`
+
+4. **Desplegar**: Una vez configurado, Netlify construirá y desplegará tu aplicación automáticamente cada vez que hagas push a tu repositorio.
