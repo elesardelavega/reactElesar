@@ -219,3 +219,10 @@ Si prefieres un despliegue automático cada vez que haces un push a tu repositor
    - **Publish Directory**: `dist`
 
 4. **Desplegar**: Una vez configurado, Netlify construirá y desplegará tu aplicación automáticamente cada vez que hagas push a tu repositorio.
+
+
+1-> npm install @vitejs/plugin-react -E
+
+2-> npm install react react-dom -E 
+
+Linter: npm install standard -D
