@@ -1,7 +1,3 @@
-Claro, aquí tienes el contenido actualizado del `README.md` con las instrucciones para desplegar la aplicación utilizando el comando `npm run build` y subiendo la carpeta a Netlify.
-
----
-
 # React Primer: Guía de Inicio
 
 ## Índice
