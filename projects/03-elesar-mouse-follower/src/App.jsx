@@ -49,7 +49,6 @@ const FollowMouse = () => {
   // [enabled] -> cuando cambia el enabled y cuando se monta
   // undefined -> cada vez que se renderiza el componente
 
-
   // change body className
   useEffect(() => {
 
