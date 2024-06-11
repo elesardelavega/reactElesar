@@ -9,6 +9,7 @@ const FollowMouse = () => {
   // inicializamos el objeto X e Y del cursor con 0
   const [position, setPosition] = useState({ x: 0, y: 0 })
 
+  //pointermove
   useEffect(() => {
 
     // click a enabled (boton) activandolo
@@ -40,6 +41,20 @@ const FollowMouse = () => {
 
       // ver eventos -> getelementListeners(window) (elemento donde se suscribe)
 
+    }
+
+  }, [enabled])
+
+
+  // change body className
+  useEffect(() => {
+
+    // añadir clase 'no-cursor' al body
+    document.body.classList.toggle('no-cursor', enabled)
+
+    return () => {
+      // eliminar clase 'no-cursor' al body
+      document.body.classList.remove('no-cursor')
     }
 
   }, [enabled])
