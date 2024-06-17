@@ -4,7 +4,7 @@ import './App.css'
 const CAT_ENDPOINT_RANDOM_FACT = 'https://catfact.ninja/fact'
 // const CAT_ENDPOINT_IMAGE_UR = 'https://cataas.com/cat/says/hello'
 
-export function App() {
+export function App () {
   // constante de fact
   const [fact, setFact] = useState()
   const [imageUrl, setImageUrl] = useState()
@@ -62,9 +62,24 @@ export function App() {
       })
   }, [fact])
 
+  const handleClick = () => {
+    fetch(CAT_ENDPOINT_RANDOM_FACT)
+      .then(res => {
+        if (!res.ok) throw new Error('Error fetching fact')
+        return res.json()
+      })
+      .then(data => {
+        const { fact } = data
+        setFact(fact)
+      })
+  }
+
   return (
     <main>
       <h1>App de gatitos</h1>
+
+      <button onClick={handleClick}>Get new fact</button>
+
       {fact && <p>{fact}</p>}
       {imageUrl && <img src={imageUrl} alt={`Image extracted using the first word for ${fact}`} />}
     </main>
