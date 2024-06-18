@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
 }
 
 main {
@@ -25,10 +25,11 @@ form {
   padding: 0;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
  
   width: 100%;
-  gap: 32px;
+  gap: 50px;
+  padding-top: 50px;
 }
 
 .movie {
