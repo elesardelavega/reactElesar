@@ -226,3 +226,26 @@ Si prefieres un despliegue automático cada vez que haces un push a tu repositor
 2-> npm install react react-dom -E 
 
 Linter: npm install standard -D
+
+// <React.StrictMode>
+
+3-> frameworks class
+  water css
+  bolt css
+
+4-> custom hook (extraer)
+
+5-> HOOKS: 
+useRef
+useState
+useEffect -> cada vez que se ejecuta por primera vez o cambian sus dependencias (ejecuta efectos)
+useMemo -> memorizar computaciones que hemos echo a no ser que cambien las dependencias (recalcular un valor)
+useCallBack -> lo mismo que useMemo pensado para funciones (simplificar funciones, SOLO FUNCIONES)
+
+6-> onSubmit={handleSubmit} (usar en forms)
+7-> dependencias de forma controlada y no controladas
+
+8-> debounce (esperar a que acabe el user 500ml o 300ml para ejecutarlo) LIBRERIAS
+  lodash debounce
+  use debounce
+  just angus
