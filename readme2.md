@@ -241,6 +241,9 @@ useState
 useEffect -> cada vez que se ejecuta por primera vez o cambian sus dependencias (ejecuta efectos)
 useMemo -> memorizar computaciones que hemos echo a no ser que cambien las dependencias (recalcular un valor)
 useCallBack -> lo mismo que useMemo pensado para funciones (simplificar funciones, SOLO FUNCIONES)
+useContext -> tener contexto (en que consiste el contexto -> poder leer el context desde donde lo necesitemos, sacarlo de la lógica)
+useId -> genera identificador único, siempre será el mismo, nunca va a cambiar
+useReducer -> permite manejar estado de una manera escalable, a partir del estado actual y la funcion te devuelve el nuevo estado (si hay muchos useState uno detrás de otro)
 
 6-> onSubmit={handleSubmit} (usar en forms)
 7-> dependencias de forma controlada y no controladas
@@ -249,3 +252,5 @@ useCallBack -> lo mismo que useMemo pensado para funciones (simplificar funcione
   lodash debounce
   use debounce
   just angus
+
+9-> fuente de la verdad
