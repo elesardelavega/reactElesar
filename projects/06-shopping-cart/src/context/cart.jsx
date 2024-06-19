@@ -25,6 +25,7 @@ function useCartReducer() {
 
 // 2. Crear el provider, para proveer el contexto
 // la dependecia de usar React Context es MÍNIMA
+// eslint-disable-next-line react/prop-types
 export function CartProvider({ children }) {
   const { state, addToCart, removeFromCart, clearCart } = useCartReducer();
 

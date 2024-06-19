@@ -3,6 +3,7 @@ import { CartIcon, ClearCartIcon } from "./Icons.jsx";
 import { useCart } from "../hooks/useCart.js";
 import "./Cart.css";
 
+// eslint-disable-next-line react/prop-types
 function CardItem({ thumbnail, title, price, quantity, addToCart, removeFromCart }) {
   return (
     <li>
