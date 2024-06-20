@@ -1,3 +1,4 @@
 {  
+  "react/prop-types": "off",
   "extends": ["react-app", "plugin:prettier/recommended"]
 }
