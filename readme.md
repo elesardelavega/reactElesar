@@ -43,6 +43,21 @@ Aprendiendo React con [midulive](https://www.youtube.com/playlist?list=PLUofhDIg
     - [useEffect](#useeffect)
     - [useMemo](#usememo)
     - [useCallback](#usecallback)
+    - [useContext](#usecontext)
+    - [useId](#useid)
+    - [useReducer](#usereducer)
+  - [Forms](#forms)
+    - [Patrones](#patrones)
+      - [Componentes Controlados](#componentes-controlados)
+      - [Componentes No Controlados](#componentes-no-controlados)
+    - [Validación](#validación)
+      - [Validaciones Síncronas](#validaciones-síncronas)
+      - [Validaciones Asíncronas](#validaciones-asíncronas)
+    - [Serialización, bibliotecas de formularios](#serialización-bibliotecas-de-formularios)
+      - [Formik](#formik)
+      - [React Hook Form](#react-hook-form)
+      - [React Final Form](#react-final-form)
+    - [Debounce](#debounce)
 
 ## Introducción a React
 
@@ -745,32 +760,31 @@ useMemo es un Hook de React que te permite guardar en caché el resultado de un 
 Memorizar computaciones que hemos echo a no ser que cambien las dependencias (recalcular un valor)
 
 ```jsx
-const cachedValue = useMemo(calculateValue, dependencies)
+const cachedValue = useMemo(calculateValue, dependencies);
 ```
 
 Es especialmente útil cuando el valor a memorizar es producto de un cálculo que consume mucha memoria y procesamiento.
 
 ```jsx
-import { useMemo } from 'react'
+import { useMemo } from "react";
 
 function Counter({ count }) {
-  const double = useMemo(() => count * 2, [count])
+  const double = useMemo(() => count * 2, [count]);
 
   return (
     <div>
       <p>Contador: {count}</p>
       <p>Doble: {double}</p>
     </div>
-  )
+  );
 }
 ```
 
-En este caso, el componente ***Counter*** recibe una prop count que es un número. El componente calcula el doble de ese número y lo muestra en pantalla.
+En este caso, el componente **_Counter_** recibe una prop count que es un número. El componente calcula el doble de ese número y lo muestra en pantalla.
 
-El hook useMemo recibe dos parámetros: una ***función*** y un ***array de dependencias***. La función se ejecuta cuando el componente se renderiza por primera vez y cuando alguna de las dependencias cambia, en este ejemplo la prop count.
+El hook useMemo recibe dos parámetros: una **_función_** y un **_array de dependencias_**. La función se ejecuta cuando el componente se renderiza por primera vez y cuando alguna de las dependencias cambia, en este ejemplo la prop count.
 
 La ventaja es que si la prop count no cambia, se evita el cálculo del doble y se devuelve el valor que ya se había calculado previamente.
-
 
 ### [useCallback](https://es.react.dev/reference/react/useCallback)
 
@@ -779,19 +793,19 @@ Lo mismo que useMemo pensado para funciones (simplificar funciones, SOLO FUNCION
 useCallback es un Hook de React que te permite almacenar la definición de una función entre renderizados subsecuentes.
 
 ```jsx
-const cachedFn = useCallback(fn, dependencies)
+const cachedFn = useCallback(fn, dependencies);
 ```
 
-Un ejemplo típico de su uso es cuando se tiene un componente padre que contiene varios componentes hijos. 
+Un ejemplo típico de su uso es cuando se tiene un componente padre que contiene varios componentes hijos.
 
 Si el componente padre se vuelve a renderizar, también lo harán todos sus componentes hijos, incluso si su estado no ha cambiado. Esto puede causar un rendimiento ineficiente en aplicaciones grandes o con una alta frecuencia de actualizaciones.
 
 ```jsx
-import React, { useState, useCallback } from 'react';
-import Child from './Child';
+import React, { useState, useCallback } from "react";
+import Child from "./Child";
 
 const Parent = () => {
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState < number > 0;
 
   const handleClick = useCallback(() => {
     setCount(count + 1);
@@ -799,10 +813,512 @@ const Parent = () => {
 
   return (
     <div>
-      <Child handleClick={ handleClick } />
+      <Child handleClick={handleClick} />
     </div>
   );
-}
+};
 
 export default Parent;
 ```
+
+### [useContext](https://es.react.dev/reference/react/useContext)
+
+tener contexto (en que consiste el contexto -> poder leer el context desde donde lo necesitemos, sacarlo de la lógica)
+
+useContext es un Hook de React que te permite leer y suscribirte a un contexto desde tu componente.
+
+```jsx
+const MyContext = React.createContext();
+```
+
+Para utilizar useContext, primero se debe crear un contexto utilizando React.createContext.
+
+Luego, se puede proporcionar un valor para ese contexto utilizando el componente **_Context.Provider_**.
+
+Por último, los componentes que deseen acceder a ese valor pueden utilizar useContext para consumirlo.
+
+- Evita la prop drilling: con useContext, los componentes pueden acceder a **datos compartidos** sin necesidad de pasar explícitamente los datos a través de props.
+
+- Facilita la **_reutilización_** del código: el uso de useContext permite la creación de componentes que pueden ser utilizados en diferentes contextos, lo que hace que el código sea más modular y reutilizable.
+
+- **_Reduce la complejidad_**: con useContext, los componentes pueden acceder a los datos que necesitan sin tener que preocuparse por la estructura de los componentes que se encuentran en medio.
+
+```jsx
+import React from "react";
+
+export const myContext = React.createContext("Default value");
+```
+
+```jsx
+import React from "react";
+import { myContext } from "./context";
+
+export function ProviderContextComponent() {
+  const sharedData = "My shared data!";
+
+  return (
+    <myContext.Provider value={sharedData}>
+      {/* children components */}
+    </myContext.Provider>
+  );
+}
+```
+
+```jsx
+import React, { useContext } from "react";
+import { myContext } from "./context";
+
+export function ConsumerContextComponent() {
+  const data = useContext(myContext);
+
+  return <div>Data shared is: {data}</div>;
+}
+```
+
+### [useId](https://es.react.dev/reference/react/useId)
+
+useId es un Hook de React para generar IDs únicos que se pueden pasar a los atributos de accesibilidad.
+
+genera identificador único, siempre será el mismo, nunca va a cambiar
+
+```jsx
+const id = useId();
+```
+
+Sin embargo, escribir IDs fijos como este no es una buena práctica en React.
+
+Un componente puede renderizarse más de una vez en la página, ¡pero los IDs tienen que ser únicos! En lugar de utilizar un ID fijo, puedes generar un ID único con useId
+
+```jsx
+import { useId } from "react";
+
+function PasswordField() {
+  const passwordHintId = useId();
+  return (
+    <>
+      <label>
+        Password:
+        <input type="password" aria-describedby={passwordHintId} />
+      </label>
+      <p id={passwordHintId}>
+        The password should contain at least 18 characters
+      </p>
+    </>
+  );
+}
+```
+
+### [useReducer](https://es.react.dev/reference/react/useReducer)
+
+useReducer es un Hook de React que te permite agregar un reducer a tu componente.
+
+permite manejar estado de una manera escalable, a partir del estado actual y la funcion te devuelve el nuevo estado (si hay muchos useState uno detrás de otro)
+
+```jsx
+const [state, dispatch] = useReducer(reducer, initialArg, init?)
+```
+
+La función dispatch devuelta por useReducer te permite actualizar el estado a un valor diferente y activar una nueva renderización.
+
+Es necesario pasar la acción como único argumento a la función dispatch
+
+React establecerá el siguiente estado al resultado de llamar a la función reducer que has proporcionado con el state actual y la acción que has pasado a dispatch
+
+```jsx
+import { useReducer } from "react";
+
+function reducer(state, action) {
+  if (action.type === "incremented_age") {
+    return {
+      age: state.age + 1,
+    };
+  }
+  throw Error("Unknown action.");
+}
+
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, { age: 42 });
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          dispatch({ type: "incremented_age" });
+        }}
+      >
+        Incrementar edad
+      </button>
+      <p>¡Hola! Tú tienes {state.age}.</p>
+    </>
+  );
+}
+```
+
+React pasará el estado actual y la acción a tu función reducer.
+
+Tu reducer calculará y devolverá el siguiente estado. React almacenará ese siguiente estado, renderizará tu componente con él y actualizará la UI.
+
+useReducer es muy similar a useState, pero te permite mover la lógica de actualización de estado de los controladores de eventos a una única función fuera de tu componente.
+
+## Forms
+
+Debemos tener en cuenta los siguientes aspectos:
+
+- **_Accesibilidad_**: Millones de usuarios en el mundo sufren algún tipo de discapacidad y navegan los sitios web a través de herramientas diferentes al mouse y el teclado, por lo tanto, debemos tener en cuenta la semántica de los elementos HTML que usemos para crear el formulario, además no será suficiente usar las estrategias de validación convencionales propuestas por los navegadores.
+- **_Validación_**: Cada campo que existe en el formulario puede tener unas reglas particulares. Unos campos pueden ser opcionales, otros obligatorios, también permiten ingresar correos electrónicos, pueden requieren valores mínimos o máximos, entre otros.
+
+- **_Serialización_**: Cuando un usuario ha terminado de diligenciar el formulario, su información se encuentra en algún espacio de memoria en el que usa la aplicación.
+
+### Patrones
+
+#### Componentes Controlados
+
+Un componente controlado es aquel que usa los cambios de estado o cambios de props como fuente de verdad para representarse en el DOM.
+
+De manera más concreta, es un componente que mantiene una sincronización entre el estado de React y el valor del campo, si el estado cambia, el valor cambia.
+
+![alt text](image.png)
+
+```jsx
+const [count, setCount] = React.useState(0);
+
+function ComponenteControlado({ children }) {
+  const [value, setValue] = React.useState(""); // Inicia con un string vacio
+
+  const onChange = (event) => {
+    setValue(event.currentTarget.value); //Actualiza el valor del estado con el valor actual del input
+  };
+
+  return (
+    <div>
+      <h1>Mi input</h1>
+      <input value={value} onChange={onChange} />
+      {children}
+    </div>
+  );
+}
+```
+
+Aquí el valor mostrado y obtenido por el input “vive” dentro del componente mediante el uso de useState. Este valor es actualizado cada vez que el input llama a la función onChange.
+
+Cada vez que se escribe un nuevo carácter en el input, onChange es llamado y a su vez un nuevo cambio de estado ocurre, lo que cambia el valor de la variable de estado value que a su vez cambia el valor renderizado por el input.
+
+#### Componentes No Controlados
+
+Un componente no controlado, es aquel que no usa el estado o las props para representarse en el DOM, y, por el contrario, usa la API del DOM. La manera en la que React obtiene los valores es usando la API de REF.
+
+![alt text](image-1.png)
+
+```jsx
+onst Component = () => {
+	const inputRef = React.useRef()
+
+	const onClickButton = () > {
+		console.log(inputRef.current.value)
+	}
+
+	return (
+		<div>
+			<input type="text" ref={inputRef}
+			<button onClick={onClickButton}>Click</button>
+		</div>
+	)
+}
+```
+
+### Validación
+
+Las validaciones en los formularios buscan guiar y comunicar al usuario sobre los valores adecuados que cada uno de los campos espera almacenar.
+
+Los casos de uso son numerosos, a veces se busca que tenga un rango especifico de caracteres, otras veces queremos que cumpla un patrón de texto preciso, o quizás queremos que responda frente a un campo previamente ingresado.
+
+#### Validaciones Síncronas
+
+Una validación síncrona es aquella que evalúa el estado del campo en el hilo principal de Javascript.
+
+La mayoría de las validaciones son de este tipo, y los casos de uso más normales son validaciones de correos electrónicos, nivel de seguridad de contraseña, y para generalizar, todo aquello que sea posible usando Regexp.
+
+```jsx
+import React from "react";
+
+const emailRegexp = new RegExp(/[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/);
+
+function Form() {
+  const [emailField, setEmailField] = React.useState({
+    value: "",
+    hasError: false,
+  });
+
+  function handleChange(evt) {
+    /*
+      Esta función es la misma usada
+      en la sección de componentes de
+      Componentes Controlados
+    */
+  }
+
+  function handleBlur() {
+    /*
+      1. Evaluamos de manera síncrona
+      si el valor del campo no es un correo valido.
+
+      2. Recordar que este método se llama
+      cada vez que abandonamos el campo y evita
+      que el usuario reciba un error sin haber terminado
+      de poner el valor.
+    */
+
+    const hasError = !emailRegexp.test(emailField.value);
+    setEmailField((prevState) => ({ ...prevState, hasError }));
+  }
+
+  return (
+    <form>
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        value={emailField.value}
+        onChange={handleChange}
+				{/* onChange para sincronizar el valor del campo */}
+        onBlur={handleBlur}
+				{/* onBlur para sincronizar la validación del campo */}
+        aria-errormessage="emailErrorID"
+        aria-invalid={emailField.hasError}
+      />
+      {/*
+          1. Solo muestra el mensaje de error cuando hasError sea true
+          2. Crea una relación lógica entre el campo y el mensaje de error,
+          favoreciendo la semántica y la accesibilidad del campo.
+        */}
+      <p
+        id="msgID"
+        aria-live="assertive"
+        style={{ visibility: emailField.hasError ? "visible" : "hidden" }}
+      >
+        Please enter a valid email
+      </p>
+    </form>
+  );
+}
+```
+
+#### Validaciones Asíncronas
+
+Las validaciones asíncronas son aquellas que determinen el estado del campo usando algún servicio externo que bloquea el hilo principal de Javascript.
+
+Suelen ser usados para comparar valores que ingresa el usuario contra una base de datos, verificar si una dirección es válida, si un correo no está en uso, si un nombre de usuario ya ha sido registrado, entre otros.
+
+```jsx
+import React from "react";
+
+function getEmailAvailability(email) {
+  /*
+    Imaginemos que tenemos un servicio que valida
+    si el correo enviado está disponible o no
+  */
+}
+
+function Form() {
+  const [emailField, setEmailField] = React.useState({
+    value: "",
+    hasError: false,
+  });
+
+  function handleChange(evt) {
+    /*
+      Esta función es la misma usada
+      en la sección de componentes de
+      Componentes Controlados
+    */
+  }
+
+  async function handleBlur() {
+    /*
+      Llamamos al servicio y
+      definimos si hay o no error
+    */
+    const hasError = await getEmailAvailability(emailField.value);
+    setEmailField((prevState) => ({ ...prevState, hasError }));
+  }
+
+  return (
+    <form>
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        value={emailField.value}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        aria-errormessage="emailErrorID"
+        aria-invalid={emailField.hasError}
+      />
+      <p
+        id="msgID"
+        aria-live="assertive"
+        style={{ visibility: emailField.hasError ? "visible" : "hidden" }}
+      >
+        This email is already registered
+      </p>
+    </form>
+  );
+}
+```
+
+### Serialización, bibliotecas de formularios
+
+El uso de bibliotecas y frameworks es parte del día a día de un desarrollador frontend, el ecosistema de Javascript es bastante amplio y, gracias a ello una alta cantidad de soluciones ya han sido abstraídas y puestas a disposición de cualquier proyecto open source o privado.
+
+#### Formik
+
+Formik es una biblioteca exclusiva para el manejo de formulario en React y React Native. Se encarga de las abstracciones más comunes, es intuitiva, y finalmente es adoptable por su simplicidad y tamaño.
+
+Está biblioteca ofrece dos modos de uso, la primera es usando un Provider llamado Formik y tiene algunas ventajas como poder usar los componentes que Formik ha abstraído como <Field />, <ErrorMessage />, entre otros.
+
+La segunda opción es más minimalista y se usa través de la API de Hooks usando uno de ellos llamado useFormik.
+
+```jsx
+import React from "react";
+import { useFormik } from "formik";
+
+function Formik() {
+  const { handleSubmit, handleChange, values } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async function (values) {
+      // Aquí puedes usar values para enviar la información
+    },
+  });
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        onChange={handleChange}
+        value={values.email}
+      />
+      <label htmlFor="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        onChange={handleChange}
+        value={values.password}
+      />
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+}
+```
+
+1. Importamos y ejecutamos dentro del componente el método useFormik, definiéndole el estado inicial y la función que debe ejecutarse cuando se guarde el formulario.
+
+2. **_useFormik_** nos devuelve un objeto con diferentes métodos y atributos que definen el estado del formulario.
+
+3. **_handleSubmit_** contiene la lógica que ejecutara el formulario al guardarse
+
+4. **_handleChange_** sincroniza el valor de los campos con el estado usando componentes controlados
+
+5. values contiene los valores actuales del formulario
+
+6. Le pasamos al formulario y los campos los métodos y valores descritos anteriormente.
+
+7. Cuando el evento de submit ocurre, la función onSubmit tiene los valores disponibles para ser usados.
+
+#### React Hook Form
+
+React Hook Form es una biblioteca construida sobre la API de React Hooks, está enfocada en el perfomance, la integración con otras bibliotecas de UI
+
+Todo la API de react-hook-form como lo dice su nombre, está basado en hooks. Su hook principal es useForm.
+
+```jsx
+import React from "react";
+import { useForm } from "react-hook-form";
+
+function HookForm() {
+  const { register, handleSubmit } = useForm();
+
+  function onSubmit(values) {
+    // Aquí puedes usar values para enviar la información
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <label htmlFor="email">Email</label>
+      <input type="email" {...register("email")} />
+      <label htmlFor="password">Password</label>
+      <input type="password" {...register("password")} />
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+}
+```
+
+1. Importamos y ejecutamos dentro del componente el método **_useForm_**.
+
+2. **_useForm_** nos retorna dos métodos, register y handleSubmit.
+
+3. **_register_** se usa en cada uno de los campos, está es la manera como se sincroniza el estado con el formulario.
+
+4. **_handleSubmit_** se usa para especificar el método que debe de ejecutarse cuando el formulario es guardado.
+
+5. Cada input usa **_register_** describiendo el identificador del campo.
+
+6. Cuando el evento de **_submit_** ocurre, la función **_onSubmit_** tiene los valores disponibles para ser usados.
+
+#### React Final Form
+
+React Final Form es un wrapper de Final Form, una biblioteca agnóstica a frameworks que sirve para crear formularios en Javascript. Su implementación esta basada en el patrón de observador y de esta forma hace **_re-render_** solo de los componentes que cambiaron.
+
+```jsx
+import React from "react";
+import { Form, Field } from "react-final-form";
+
+function FinalForm() {
+  function onSubmit(values) {
+    // Aquí puedes usar values para enviar la información
+  }
+
+  return (
+    <Form onSubmit={onSubmit}>
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email</label>
+          <Field name="email" component="input" id="email" type="email" />
+          <label htmlFor="password">Password</label>
+          <Field
+            name="password"
+            component="input"
+            id="password"
+            type="password"
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+      )}
+    </Form>
+  );
+}
+```
+
+1. Importamos y utilizamos el componente `<Form />` suministrando la función que se ejecutará cuando el componente sea guardado.
+
+2. El contenido interno del componente `<Form />` es un render prop, o una función que proporciona propiedades y/o estado interno.
+
+3. En nuestro ejemplo solo estamos usando el método **_handleSubmit_** que nos proporciona el render prop, sin embargo, en los parámetros de esa función podremos obtener información del estado del formulario, como por ejemplo, si está activo, si ya está siendo diligenciado, si tiene errores, etc.
+
+4. Finalmente, React Final Form nos proporciona un componente `<Field />` que se sincroniza internamente con el contexto del componente `<Form />`, este componente representado el `<input />` usado en los ejemplos anteriores, sin embargo, tiene una API bastante flexible que permite integrar componentes existentes usando input, select, o incluso textarea.
+
+### Debounce
+
+Bueno, debouncing es una práctica en el desarrollo de software lo cual se asegura de que ciertas tareas pesadas no se dispare frecuentemente.
+
+Supongamos que tenemos un elemento input que recibe algunos datos cuando escribimos algo. Por ejemplo, digamos que escribimos un código pin y regresa algunos datos.
+
+Esto llama a la API demasiadas veces, y a la vez abusa de las peticiones. Así que, para prevenir esto, usamos algo llamado una función debounce.
+
