@@ -21,6 +21,16 @@ const FollowMouse = () => {
     return () => {
       window.removeEventListener('pointermove', handleMove);
     };
+  }, [enabled])
+
+  useEffect(() => {
+    //document.body.style.cursor = enabled ? 'none' : 'default';
+
+    document.body.classList.toggle('no-cursor', enabled);
+
+    return () => {
+      document.body.classList.remove('no-cursor');
+    };
   }, [enabled]);
 
   return (
