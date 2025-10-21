@@ -1010,7 +1010,7 @@ Un componente no controlado, es aquel que no usa el estado o las props para repr
 ![alt text](image-1.png)
 
 ```jsx
-onst Component = () => {
+const Component = () => {
 	const inputRef = React.useRef()
 
 	const onClickButton = () > {
