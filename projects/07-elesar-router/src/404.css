@@ -1,0 +1,41 @@
+@import 'https://fonts.googleapis.com/css?family=VT323';
+
+div.bsod {
+  background: #0414a7;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+  max-width: 640px;
+}
+
+.bsod {
+  padding-top: 10%;
+
+  .neg {
+    text-align: center;
+    color: #0414a7;
+
+    .bg {
+      background: #aaaaaa;
+      padding: 0 15px 2px 13px;
+    }
+  }
+  .title {
+    margin-bottom: 50px;
+  }
+  Link {
+    margin-top: 35px;
+    text-align: center;
+
+    text-decoration: none;
+    padding: 0 9px 2px 8px;
+
+    &:hover,
+    &:focus {
+      background: #aaaaaa;
+      color: #0414a7;
+    }
+  }
+}
